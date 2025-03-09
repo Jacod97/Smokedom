@@ -1,5 +1,8 @@
 # 연기의 민족 (SmokeNation)
 
+## 최종 PPT링크
+https://www.canva.com/design/DAGacERlqqU/VLw600U8s9SdePvBxtOO1g/edit?utm_content=DAGacERlqqU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
 ## 프로젝트 소개 (Introduction)
 
 **"연기의 민족"** 프로젝트는 청소년 흡연의 실태를 조사하고 데이터를 분석하여 규제 방안을 제안하는 프로젝트입니다. 
@@ -53,6 +56,55 @@ graph TD;
     I -->|흡연 규제 강화를 위한 정책 제안| J["최종 보고서 작성"]
     J --> K["프로젝트 완료"]
 ```
+## 이슈 해결 및 개선 사항
+### 1. 이슈 해결
+시각화 한글 폰트 깨짐 오류
+1. 내가 가진 폰트 확인하기
+```
+# 내가 가지고 있는 폰트 목록 확인하기
+from matplotlib import font_manager
+
+search_font = "gothic"    # 필터
+
+for font in font_manager.findSystemFonts():
+  font_info = font_manager.FontProperties(fname=font)
+  font_name = font_info.get_name()
+  font_path = font_info.get_file()
+  if search_font in font_name.lower():
+    print(font_name, font_path)
+
+## 출력 예시
+# NanumGothic Eco /usr/share/fonts/truetype/nanum/NanumGothicEcoExtraBold.ttf
+# NanumBarunGothic /usr/share/fonts/truetype/nanum/NanumBarunGothicLight.ttf
+# NanumGothicCoding /usr/share/fonts/truetype/nanum/NanumGothicCoding.ttf
+```
+2. Matplotlib에 내 폰트 등록하기
+1번에서 URL을 복사하여 font_path에 넣는다.
+```
+# 폰트 등록하기 
+from matplotlib import font_manager 
+
+## 폰트 경로
+font_path = "/usr/share/fonts/truetype/nanum/NanumGothicCodingBold.ttf"
+## 폰트 추가
+font_manager.fontManager.addfont(font_path)
+## 폰트 이름 확인
+font_name = font_manager.FontProperties(fname=font_path).get_name()
+print(font_name)
+```
+3. Font Family 설정하기
+2번의 font_name과 동일하게 작성한다.
+```
+# 폰트 설정하기
+font_name = "NanumGothic Eco"
+
+## 방법1
+# plt.rc('font', family=font_name)
+## 방법2
+plt.rcParams["font.family"] = font_name
+```
+### 2. 개선 사항
+데이터 수집 과정에서 최신 데이터 부족으로 일부 보완 필요 특정 연령대의 흡연율 변화 요인 분석이 더 심층적으로 이루어 졌다면 좋았을 것 같다.
 
 ## 사용 방법 (How to Use)
 ### 1. Jupyter Notebook 실행
@@ -64,10 +116,3 @@ jupyter notebook
 python crawler.py
 ```
 ### 3. 분석 코드 실행 후 결과 확인
-
-## 추가 자료 (Additional Resources)
-- **프로젝트 보고서 (PDF)**
-- **분석 결과 데이터셋** (공유 여부 확인 필요)
-
-## 공통 문의 (Contributing)
-프로젝트에 기여하고 싶다면 Pull Request를 보내주세요!
